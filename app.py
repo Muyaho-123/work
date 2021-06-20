@@ -28,15 +28,15 @@ def NE():
 
 @app.route('/NW')
 def ND():
-    return render_template("ND.html")    
+    return render_template("NW.html")    
 
 @app.route('/NY')
 def ND():
-    return render_template("ND.html")    
+    return render_template("NY.html")    
 
 @app.route('/PA')
 def ND():
-    return render_template("ND.html")    
+    return render_template("PA.html")    
 
 @app.route('/login')
 def login():
