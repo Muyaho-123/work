@@ -1,13 +1,12 @@
 import pymysql
 
-
-
+def dpcon():
+    return pymysql.connect(host='yha05223.mysql.pythonanywhere-services.com',
+                   user='yha05223', password='haha1234',
+                   db='yha05223$mydb', charset='utf8')
 def insert_user(userid, pw, name, phone):
     try:
-        db = pymysql.connect(host='127.0.0.1',
-                   user='root', password='1234',
-                   db='taxidb', charset='utf8')
-
+        db = dpcon()
         c = db.cursor()
         setdata = (userid, pw, name, phone)
         c.execute("INSERT INTO user_tb (id, pw, name, phone)VALUES (%s, %s, %s, %s )", setdata)
@@ -23,7 +22,7 @@ def get_idpw(userid, pw):
     try:
         db = pymysql.connect(host='127.0.0.1',
                    user='root', password='1234',
-                   db='taxidb', charset='utf8')
+                   db='appdb', charset='utf8')
 
         c = db.cursor()
         setdata = (userid, pw)
@@ -36,4 +35,3 @@ def get_idpw(userid, pw):
             db.close()
     return ret
 
-#get_idpw('a','1234')

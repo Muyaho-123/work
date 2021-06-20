@@ -1,19 +1,56 @@
-from flask import Flask, render_template, request
-from func import ck_idpw # 내가 만든 id pw 체크 함수
-app = Flask(__name__)
+from flask import Flask, render_template, request, session, redirect
+from func import ck_idpw 
 import db
 
-@app.route('/naver') # 루트(/)는 뿌리
-def hello():
-    return '안녕 나는 네이버야~'
+app = Flask(__name__)
+app.secret_key = b'aaa!111/'
 
-@app.route('/form')
-def form():
-    return render_template("form.html")
 
-@app.route('/join')
-def join():
-    return render_template("join.html")
+@app.route('/') 
+def travel():
+    return render_template('travel.html')
+
+@app.route('/now')
+def now():
+    return render_template("now.html")
+
+@app.route('/CA')
+def CA():
+    return render_template("CA.html")
+
+@app.route('/ND')
+def ND():
+    return render_template("ND.html")    
+
+@app.route('/NE')
+def NE():
+    return render_template("NE.html")    
+
+@app.route('/NW')
+def ND():
+    return render_template("ND.html")    
+
+@app.route('/NY')
+def ND():
+    return render_template("ND.html")    
+
+@app.route('/PA')
+def ND():
+    return render_template("ND.html")    
+
+@app.route('/login')
+def login():
+    return render_template("login.html")    
+
+
+@app.route('/jo') 
+def jo():
+    return render_template("jo.html")
+
+@app.route('/logout')
+def logout():
+    session.pop('user', None)
+    return redirect('/')
 
 @app.route('/join_action',methods=['GET', 'POST'])
 def join_action():
@@ -25,8 +62,9 @@ def join_action():
         name = request.form['name']
         phone = request.form['phone']
         print(userid, pwd, name, phone)
+        
         db.insert_user(userid, pwd, name, phone)
-        return '회원가입 성공!!@'
+        return '회원가입 성공.'
 
 
 @app.route('/jo',methods = ['GET','POST'])
@@ -38,7 +76,7 @@ def jo():
         ID = request.form['ID']
         PW = request.form['PW']
         if ck_idpw(ID, PW):
-            return '반갑습니다~!!!'
+            return '반갑습니다.'
         else:
             return '다시 로그인하세요.'
 
@@ -68,22 +106,13 @@ def login():
         pwd = request.form['pwd']
         print(userid,'pwd')
         ret = db.get_idpw(userid, pwd)
+        if ret != None:
+            session['user'] = ret[3] #로그인 처리함
         return ck_idpw(ret)
-        #if 'qu' == '123' and 'qe' == '456':
-        #    return '안녕하세요 어서오세요'
-        #else:
-        #   return '다시 로그인하세요'
-
-# 웹브라우저에 http://127.0.0.1:5000/naver 
-# 위와같이 접속 하면 안녕 나는 네이버야~
-# 라는 글자를 나타나게 하시오
-
-@app.route('/taxi')
-def taxi():
-    return render_template("taxi.html")
-
-
-
+        if 'qu' == '123' and 'qe' == '456':
+            return '안녕하세요 어서오세요'
+        else:
+          return '다시 로그인하세요'
 
 if __name__ == '__main__':
     app.run()
